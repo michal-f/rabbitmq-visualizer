@@ -509,6 +509,14 @@ function setPos() {
 				createBinding(startNode,endNode);
 			} else if (sType === "producer" && dType === "exchange") {
 				createBinding(startNode,endNode);
+			} else if (sType === "producer" && dType === "queue") {
+				createBinding(startNode,endNode);
+			} else if (sType === "queue" && dType === "producer") {
+				createBinding(startNode,endNode);
+			} else if (sType === "producer" && dType === "consumer") {
+				createBinding(startNode,endNode);
+			} else if (sType === "consumer" && dType === "producer") {
+				createBinding(startNode,endNode);
 			} else if (sType === "consumer" && dType === "queue") {
 				var binds = config.bindings.filter(function(d){return d.source === endNode.id}).length;
 				createBinding(endNode,startNode);
