@@ -59,7 +59,19 @@
    	.producer { fill: url(#green); }
    	.queue { fill: url(#cyan); }
    	.exchange { fill: url(#orange); }
-   	#main { 
+    .worker {
+            fill: url(#red);
+        }
+
+    .module {
+            fill: url(#black);
+        }
+
+    .data_object {
+            fill: url(#blue-outline);
+        }
+
+   	#main {
    		box-sizing: border-box;
    		padding-top: 50px;
    		z-index:1;
@@ -81,13 +93,14 @@
    	#resourcetype { float: left;}
       .greeting {
          position: fixed;
-         width: 50%; 
+         width: 50%;
          margin: 0 auto;
          top: 50px; left: 0; right: 0;
       }
    </style>
  </head>
  <body>
+
  	<div class="navbar navbar-default navbar-fixed-top">
  		<div class="container">
  			<div class="navbar-header">
@@ -101,6 +114,9 @@
  			<div class="navbar-collapse collapse">
  				<div id="resourcetype" class="btn-group" data-toggle="buttons">
  					<label class="btn btn-success"><input type="radio" name="resourceType" value="producer">producer</label>
+                    <label class="btn btn-danger"><input type="radio" name="resourceType" value="worker">worker</label>
+                    <label class="btn btn-default"><input type="radio" name="resourceType" value="module">module</label>
+                    <label class="btn btn-success-outline"><input type="radio" name="resourceType" value="data_object">data_object</label>
  					<label class="btn btn-warning"><input type="radio" name="resourceType" value="exchange">exchange</label>
  					<label class="btn btn-info"><input type="radio" name="resourceType" value="queue">queue</label>
  					<label class="btn btn-primary active"><input type="radio" name="resourceType" value="consumer" checked>consumer</label>
@@ -237,20 +253,32 @@
  		<svg height="100%" width="100%">
  			<defs>
  				<linearGradient id="green" x1="0"  x2="0" y1="0" y2="1">
- 					<stop  offset="0" style="stop-color:#5cb85c"/> 
+ 					<stop  offset="0" style="stop-color:#5cb85c"/>
  					<stop  offset="1" style="stop-color:#449d44"/>
  				</linearGradient>
  				<linearGradient id="blue" x1="0"  x2="0" y1="0" y2="1">
- 					<stop  offset="0" style="stop-color:#428bca"/> 
+ 					<stop  offset="0" style="stop-color:#428bca"/>
  					<stop  offset="1" style="stop-color:#3071a9"/>
  				</linearGradient>
  				<linearGradient id="cyan" x1="0"  x2="0" y1="0" y2="1">
- 					<stop  offset="0" style="stop-color:#5bc0de"/> 
+ 					<stop  offset="0" style="stop-color:#5bc0de"/>
  					<stop  offset="1" style="stop-color:#31b0d5"/>
  				</linearGradient>
  				<linearGradient id="orange" x1="0"  x2="0" y1="0" y2="1">
- 					<stop  offset="0" style="stop-color:#f0ad4e"/> 
+ 					<stop  offset="0" style="stop-color:#f0ad4e"/>
  					<stop  offset="1" style="stop-color:#ec971f"/>
+ 				</linearGradient>
+                <linearGradient id="red" x1="0"  x2="0" y1="0" y2="1">
+ 					<stop  offset="0" style="stop-color:#f00019"/>
+ 					<stop  offset="1" style="stop-color:#cb0008"/>
+ 				</linearGradient>
+                <linearGradient id="black" x1="0"  x2="0" y1="0" y2="1">
+ 					<stop  offset="0" style="stop-color:#000000"/>
+ 					<stop  offset="1" style="stop-color:#ffffff"/>
+ 				</linearGradient>
+                <linearGradient id="blue-outline" x1="0"  x2="0" y1="0" y2="1">
+ 					<stop  offset="0" style="stop-color:#2b44ff"/>
+ 					<stop  offset="1" style="stop-color:#ffffff"/>
  				</linearGradient>
  			</defs>
  		</svg>
@@ -349,10 +377,10 @@ function convertJSON() {
 	// Update binding references to point to IDs
 	config.bindings.forEach(function(d){
 		type = d.destination_type + "s";
-		destination = config[type].filter(function (obj) { 
+		destination = config[type].filter(function (obj) {
 			return obj.name === d.destination;
 		});
-		source = config["exchanges"].filter(function (obj) { 
+		source = config["exchanges"].filter(function (obj) {
 			return obj.name === d.source;
 		});
 		d.destination = destination[0].id;
@@ -391,10 +419,10 @@ function convertJSON() {
 //
 
 // Add method to move objects to the top of the SVG Z
-d3.selection.prototype.moveToFront = function() { 
-	return this.each(function() { 
-		this.parentNode.appendChild(this); 
-	}); 
+d3.selection.prototype.moveToFront = function() {
+	return this.each(function() {
+		this.parentNode.appendChild(this);
+	});
 }
 
 
@@ -416,7 +444,7 @@ function getAllBindings(resourceType) {
 //
 
 function setPos() {
-		// set the x and y on the group (even though it doesn't do anything) 
+		// set the x and y on the group (even though it doesn't do anything)
 		// to allow for easier selection by the drag function
 		// Translate is what is doing the actual positioning
 		this.attr("transform", function (d) { return "translate(" + [d.x, d.y] + ")"; })
@@ -470,7 +498,7 @@ function setPos() {
 			d3.event.stopPropagation();
 		})
 		.on("dblclick", function (d) {
-			d3.event.stopPropagation();	
+			d3.event.stopPropagation();
 		});
 	}
 
@@ -490,7 +518,7 @@ function setPos() {
 		linkIndicator.classed('hidden', true);
 		function createBinding(source,destination) {
 			config.bindings.push({
-				source: source.id, 
+				source: source.id,
 				vhost:"demo",
 				destination: destination.id,
 				destination_type: destination.resource_type,
@@ -508,14 +536,6 @@ function setPos() {
 			} else if (sType === "exchange" && dType === "exchange") {
 				createBinding(startNode,endNode);
 			} else if (sType === "producer" && dType === "exchange") {
-				createBinding(startNode,endNode);
-			} else if (sType === "producer" && dType === "queue") {
-				createBinding(startNode,endNode);
-			} else if (sType === "queue" && dType === "producer") {
-				createBinding(startNode,endNode);
-			} else if (sType === "producer" && dType === "consumer") {
-				createBinding(startNode,endNode);
-			} else if (sType === "consumer" && dType === "producer") {
 				createBinding(startNode,endNode);
 			} else if (sType === "consumer" && dType === "queue") {
 				var binds = config.bindings.filter(function(d){return d.source === endNode.id}).length;
