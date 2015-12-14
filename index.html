@@ -845,6 +845,12 @@
                         //d3.event.preventDefault();
                         if (resourceType === "producers") {
                             messageAppend(d, this);
+                        } else if (resourceType === "workers") {
+                            messageAppend(d, this);
+                        } else if (resourceType === "modules") {
+                            messageAppend(d, this);
+                        } else if (resourceType === "data_object") {
+                            messageAppend(d, this);
                         }
                     }
                 })
@@ -1076,6 +1082,12 @@
             messageDraw(bindings[source.lastConsumer], payload, msgKey, source);
         } else if (source_type === "producers" && bindings.length > 0) {
             messageDraw(bindings[0], payload, msgKey, source);
+        } else if (source_type === "workers" && bindings.length > 0) {
+            messageDraw(bindings[0], payload, msgKey, source);
+        } else if (source_type === "modules" && bindings.length > 0) {
+            messageDraw(bindings[0], payload, msgKey, source);
+        } else if (source_type === "data_objects" && bindings.length > 0) {
+            messageDraw(bindings[0], payload, msgKey, source);
         }
     }
 
@@ -1090,9 +1102,9 @@
         containerAppend("queues");
         containerAppend("producers");
         containerAppend("consumers");
-//{#    containerAppend("workers");#}
-//{#    containerAppend("modules");#}
-//{#    containerAppend("data_objects");#}
+        containerAppend("workers");
+        containerAppend("modules");
+        containerAppend("data_objects");
         bindingAppend();
         // move cicles to the front so bindings don't overlap
         d3.selectAll(".resource").moveToFront();
@@ -1108,9 +1120,9 @@
         containerAppend("queues");
         containerAppend("producers");
         containerAppend("consumers");
-//{#    containerAppend("workers");#}
-//{#    containerAppend("modules");#}
-//{#    containerAppend("data_objects");#}
+        containerAppend("workers");
+        containerAppend("modules");
+        containerAppend("data_objects");
         bindingAppend();
         // move cicles to the front so bindings don't overlap
         d3.selectAll(".resource").moveToFront();
