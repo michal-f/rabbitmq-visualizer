@@ -334,12 +334,12 @@
                 <stop offset="1" style="stop-color:#cb0008"/>
             </linearGradient>
             <linearGradient id="black" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0" style="stop-color:#000000"/>
-                <stop offset="1" style="stop-color:#ffffff"/>
+                <stop offset="0" style="stop-color:#313131"/>
+                <stop offset="1" style="stop-color:#000000"/>
             </linearGradient>
             <linearGradient id="blue-outline" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0" style="stop-color:#2b44ff"/>
-                <stop offset="1" style="stop-color:#ffffff"/>
+                <stop offset="0" style="stop-color:#bbbbbb"/>
+                <stop offset="1" style="stop-color:#878787"/>
             </linearGradient>
         </defs>
     </svg>
@@ -703,7 +703,55 @@
                         createBinding(endNode, startNode);
                     } else if (sType === "exchange" && dType === "exchange") {
                         createBinding(startNode, endNode);
+                    } else if (sType === "exchange" && dType === "producer") {
+                        createBinding(startNode, endNode);
                     } else if (sType === "producer" && dType === "exchange") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "producer" && dType === "queue") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "queue" && dType === "producer") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "producer" && dType === "consumer") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "consumer" && dType === "exchange") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "consumer" && dType === "producer") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "data_object" && dType === "exchange") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "data_object" && dType === "queue") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "queue" && dType === "data_object") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "data_object" && dType === "consumer") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "consumer" && dType === "data_object") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "worker" && dType === "exchange") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "worker" && dType === "queue") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "queue" && dType === "worker") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "worker" && dType === "consumer") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "consumer" && dType === "worker") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "module" && dType === "exchange") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "module" && dType === "queue") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "queue" && dType === "module") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "module" && dType === "consumer") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "module" && dType === "producer") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "consumer" && dType === "module") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "consumer" && dType === "producer") {
+                        createBinding(startNode, endNode);
+                    } else if (sType === "consumer" && dType === "worker") {
                         createBinding(startNode, endNode);
                     } else if (sType === "consumer" && dType === "queue") {
                         var binds = config.bindings.filter(function (d) {
